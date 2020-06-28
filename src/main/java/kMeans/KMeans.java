@@ -51,10 +51,13 @@ public class KMeans {
         }
     }
 
+    /**
+     * Read from HDFS copied from https://www.netjstech.com/2018/02/java-program-to-read-file-in-hdfs.html
+     */
     public static void saveOutput(Path input) throws IOException {
        // System.out.println("Input file not found");
         Configuration conf = new Configuration();
-        System.out.println("saveOutput");
+       // System.out.println("saveOutput");
        // FileSystem fs = FileSystem.get(path.toUri(), conf);
         FSDataInputStream in = null;
         OutputStream out = null;
@@ -78,7 +81,6 @@ public class KMeans {
             while ((bytesRead = in.read(buffer)) > 0) {
                 out.write(buffer, 0, bytesRead);
             }
-
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
