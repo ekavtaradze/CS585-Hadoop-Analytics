@@ -19,13 +19,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class KMeans {
 
-    public static class KMeansReducer extends Reducer<Object, Text, Object, Text> {
-        public void reduce(Object key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-            context.write(new Text((byte[]) key), new Text("Text"));
-        }
-
-    }
-
     static int maxIteration = 6; //max number of iterations allowed
 
     public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
