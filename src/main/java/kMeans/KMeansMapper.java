@@ -15,7 +15,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KMeansMapper extends Mapper<LongWritable, Text, Centroid, Point> {
+public class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
+    // private final IntWritable one = new IntWritable(1);
+
+    private Text word = new Text();
     private List<Centroid> centroids = new ArrayList<Centroid>();
 
     /**
@@ -55,7 +58,7 @@ public class KMeansMapper extends Mapper<LongWritable, Text, Centroid, Point> {
                 center = centroid;
             }
         }
-        context.write(center, point);
+        context.write(new Text(center.toString()), new Text(minDistance.toString()));
 
     }
 }

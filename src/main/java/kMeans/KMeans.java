@@ -75,8 +75,7 @@ public class KMeans {
         job.setMapperClass(KMeansMapper.class);
         job.setReducerClass(KMeansReducer.class);
 
-        job.setMapOutputKeyClass(Centroid.class);
-        job.setMapOutputValueClass(Centroid.class);
+
 
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
