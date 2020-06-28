@@ -20,7 +20,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class KMeans {
-    public class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
+    public static class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
         // private final IntWritable one = new IntWritable(1);
 
         private Text word = new Text();
@@ -68,7 +68,7 @@ public class KMeans {
         }
     }
 
-    public class KMeansReducer extends Reducer<Object, Text, Object, Text> {
+    public static class KMeansReducer extends Reducer<Object, Text, Object, Text> {
         public void reduce(Object key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             context.write(new Text((byte[]) key), new Text("Text"));
         }
