@@ -20,7 +20,7 @@ public class KMeans {
     private static boolean hasNOTChanged = false;
     private static int numOfCentroids = 0;
     private static int numChanges = 0;
-    private static List<Centroid> list = new ArrayList<Centroid>();
+    private static ArrayList<Centroid> oldCentroids = new ArrayList<Centroid>();
 
     public static void setNumOfCentroids(int num) {
         numOfCentroids = num;
@@ -39,26 +39,31 @@ public class KMeans {
         Path output = new Path(args[2]);
        //
 
+        oldCentroids = saveOutput(centers);;
         run(input, output, centers);
         Path outputTemp = new Path(args[2] + "/part-r-00000");
-        saveOutput(outputTemp);
+        ArrayList<Centroid> newCentroids = saveOutput(outputTemp);
         //System.out.println("Input file not found");
         //writeFile(output.toString(), input.toString());
         int i = 1;
-        while (i < 6 && true) {
-           // run(input, output, centers);
+        while (i < 6 && centroidsHaveNotChanged(oldCentroids ,newCentroids )) {
             i++;
         }
     }
 
+
+    public static boolean centroidsHaveNotChanged(ArrayList<Centroid> oldC, ArrayList<Centroid> newC){
+        return true;
+    }
     /**
      * Read from HDFS copied from https://www.netjstech.com/2018/02/java-program-to-read-file-in-hdfs.html
      */
-    public static void saveOutput(Path input) throws IOException {
-       // System.out.println("Input file not found");
+    public static ArrayList<Centroid> saveOutput(Path input) throws IOException {
+        // System.out.println("Input file not found");
+
         Configuration conf = new Configuration();
-       // System.out.println("saveOutput");
-       // FileSystem fs = FileSystem.get(path.toUri(), conf);
+        // System.out.println("saveOutput");
+        // FileSystem fs = FileSystem.get(path.toUri(), conf);
         FSDataInputStream in = null;
         OutputStream out = null;
         try {
@@ -76,7 +81,7 @@ public class KMeans {
             System.out.println("elene");
             out = System.out;
             byte buffer[] = new byte[256];
-
+            ArrayList<Centroid> list = new ArrayList<Centroid>();
             int bytesRead = 0;
             while ((bytesRead = in.read(buffer)) > 0) {
                 out.write(buffer, 0, bytesRead);
@@ -87,13 +92,13 @@ public class KMeans {
             System.out.println("error");
             e.printStackTrace();
 
-        }finally {
+        } finally {
             // Closing streams
             try {
-                if(in != null) {
+                if (in != null) {
                     in.close();
                 }
-                if(out != null) {
+                if (out != null) {
                     out.close();
                 }
             } catch (IOException e) {
@@ -102,22 +107,11 @@ public class KMeans {
                 e.printStackTrace();
             }
         }
+
+        return null;
     }
 
 
-
-    public static void writeFile(String input, String output) throws IOException {
-        FileInputStream fis = new FileInputStream(input);
-
-        FileOutputStream fos = new FileOutputStream(output);
-
-        int i;
-        while ((i = fis.read()) != -1) {
-            fos.write(i);
-        }
-        fis.close();
-        fos.close();
-    }
 
 
     public static void run(Path input, Path output, Path centers) throws IOException, ClassNotFoundException, InterruptedException {
