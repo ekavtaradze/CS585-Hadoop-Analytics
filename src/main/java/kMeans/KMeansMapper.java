@@ -16,9 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KMeansMapper extends Mapper<LongWritable, Text, Centroid, Point> {
-    // private final IntWritable one = new IntWritable(1);
-
-    private Text word = new Text();
     private List<Centroid> centroids = new ArrayList<Centroid>();
 
     /**
