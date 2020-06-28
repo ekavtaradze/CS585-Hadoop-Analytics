@@ -1,19 +1,11 @@
 package kMeans;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import kMeans.Enums.Centroid;
-import kMeans.Enums.Point;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
@@ -53,8 +45,6 @@ public class KMeans {
     public static void writeFile(String input, String output) throws IOException {
         FileInputStream fis = new FileInputStream(input);
 
-        /* assuming that the file exists and need not to be
-           checked */
         FileOutputStream fos = new FileOutputStream(output);
 
         int i;
@@ -67,10 +57,6 @@ public class KMeans {
 
 
     public static void run(Path input, Path output, Path centers) throws IOException, ClassNotFoundException, InterruptedException {
-
-//        Path input = new Path(args[0]);
-//        Path centers = new Path(args[1]);
-//        Path output = new Path(args[2]);
 
         hasNOTChanged = false;
         numChanges =0;
