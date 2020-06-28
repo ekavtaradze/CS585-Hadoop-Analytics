@@ -1,8 +1,6 @@
 package kMeans;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +27,7 @@ public class KMeans {
         /**
          * setup should be called only once before the task begis
          * reads the centroids dataset, so that each mapped records has access to it
+         *
          * @param context
          * @throws IOException
          */
@@ -55,15 +54,14 @@ public class KMeans {
             Double minDistance = Double.MAX_VALUE;
             Centroid minCenter = null;
 
-            for(Centroid centroid: centroids )
-            {
+            for (Centroid centroid : centroids) {
                 Double compare = Distance.findEucledianDistance(centroid, point);
-                    if (minDistance > compare) {
-                        minDistance = compare;
-                        minCenter = centroid;
-                    }
+                if (minDistance > compare) {
+                    minDistance = compare;
+                    minCenter = centroid;
                 }
-                context.write(new Text(minCenter.toString()), new Text(minDistance.toString()));
+            }
+            context.write(new Text(minCenter.toString()), new Text(minDistance.toString()));
 
         }
     }
@@ -81,16 +79,33 @@ public class KMeans {
 
         Path input = new Path(args[0]);
         Path centers = new Path(args[1]);
-        Path outputFinal = new Path(args[2]);
-        Path outputTemp = new Path(args[2] +"/temp");
+        Path output = new Path(args[2]);
+        Path outputTemp = new Path(args[2] + "/temp");
 
         run(input, outputTemp, centers);
-       /* int i = 1;
+        writeFile(outputTemp.toString(), input.toString());
+     /*  int i = 1;
         while(i<=6 && true){
-        run(input, outputTemp, centers);
+        run(input, output, centers);
         i++;
         }*/
     }
+
+    public static void writeFile(String input, String output) throws IOException {
+        FileInputStream fis = new FileInputStream(input);
+
+        /* assuming that the file exists and need not to be
+           checked */
+        FileOutputStream fos = new FileOutputStream(output);
+
+        int i;
+        while ((i = fis.read()) != -1) {
+            fos.write(i);
+        }
+        fis.close();
+        fos.close();
+    }
+
 
     public static void run(Path input, Path output, Path centers) throws IOException, ClassNotFoundException, InterruptedException {
 
