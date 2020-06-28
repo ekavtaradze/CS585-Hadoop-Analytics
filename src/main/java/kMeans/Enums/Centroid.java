@@ -15,8 +15,8 @@ public class Centroid {
 
     }
 
-    public Centroid(String lineOfCenters, String div){
-        String[] split = lineOfCenters.split(div);
+    public Centroid(String lineOfCenters){
+        String[] split = lineOfCenters.split(" ");
         String x = split[0];
         String y = split[1];
         this.x = Double.parseDouble(x);
@@ -39,5 +39,9 @@ public class Centroid {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    public String toString(){
+        return x+" "+y;
     }
 }

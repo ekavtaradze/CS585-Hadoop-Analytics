@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import kMeans.Enums.Centroid;
+import kMeans.Enums.Point;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -20,7 +22,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class IterationControl {
-    public class KMeansMapper extends Mapper<Text, Text, Object, Text> {
+    public class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
         // private final IntWritable one = new IntWritable(1);
 
         private Text word = new Text();
@@ -40,23 +42,19 @@ public class IterationControl {
             String line = reader.readLine();
             while (line != null) {
                 //centroidTracker.add(line);
-                centroids.add(new Centroid(line, " "));
+                centroids.add(new Centroid(line));
               //  System.out.println(centroids.contains());
                 line = reader.readLine();
             }
             reader.close();
         }
 
-        public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+        public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
             String line = value.toString();
             String[] points =line.split(",");
 
-            Centroid point = new Centroid(line, ",");
-            //StringTokenizer tokenizer = new StringTokenizer(line);
-            //while (tokenizer.hasMoreTokens()) {
-            //    word.set(tokenizer.nextToken());
-            // output.collect(word, one);
-            //  }
+            Point point = new Point(line);
+
             Double minDistance = Double.MAX_VALUE;
             Centroid minCenter = null;
 
@@ -68,21 +66,13 @@ public class IterationControl {
                         minCenter = centroid;
                     }
                 }
-                context.write(minCenter, new Text(minDistance.toString()));
-
-          //  context.write(new Text("elene"), new Text("elene"));
+                context.write(new Text(minCenter.toString()), new Text(minDistance.toString()));
 
         }
     }
 
     public class KMeansReducer extends Reducer<Object, Text, Object, Text> {
         public void reduce(Object key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-      /* int sum = 0;
-        while (values.hasNext()) {
-            sum += values.next().get();
-        }
-        output.collect(key, new IntWritable(sum));*/
-
             context.write(new Text((byte[]) key), new Text("Text"));
         }
 

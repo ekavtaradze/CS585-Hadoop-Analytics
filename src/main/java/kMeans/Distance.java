@@ -1,6 +1,7 @@
 package kMeans;
 
 import kMeans.Enums.Centroid;
+import kMeans.Enums.Point;
 
 import java.util.HashMap;
 
@@ -11,7 +12,7 @@ public class Distance {
 
     }
 
-    public static double findEucledianDistance(Centroid centroid, Centroid point){
+    public static double findEucledianDistance(Centroid centroid, Point point){
 
         double xCentr = centroid.getX();
         double yCentr = centroid.getY();
