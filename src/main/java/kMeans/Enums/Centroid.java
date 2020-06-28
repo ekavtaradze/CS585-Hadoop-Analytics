@@ -16,7 +16,7 @@ public class Centroid {
     }
 
     public Centroid(String lineOfCenters){
-        String[] split = lineOfCenters.split(" ");
+        String[] split = lineOfCenters.split(",");
         String x = split[0];
         String y = split[1];
         this.x = Double.parseDouble(x);
@@ -44,7 +44,7 @@ public class Centroid {
     }
 
     public String toString(){
-        return x+" "+y;
+        return x+","+y;
     }
 
     public boolean equals(Centroid n){

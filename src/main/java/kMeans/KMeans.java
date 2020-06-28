@@ -34,7 +34,7 @@ public class KMeans {
         Path outputTemp = new Path(args[2] + "/temp");
 
         run(input, outputTemp, centers);
-        // writeFile(outputTemp.toString(), input.toString());
+        writeFile(outputTemp.toString(), input.toString());
      /*  int i = 1;
         while(i<=6 && true){
         run(input, output, centers);
