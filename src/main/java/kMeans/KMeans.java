@@ -1,7 +1,12 @@
 package kMeans;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import kMeans.Enums.Centroid;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
@@ -15,6 +20,7 @@ public class KMeans {
     private static boolean hasNOTChanged = false;
     private static int numOfCentroids = 0;
     private static int numChanges = 0;
+    private static List<Centroid> list = new ArrayList<Centroid>();
 
     public static void setNumOfCentroids(int num) {
         numOfCentroids = num;
@@ -31,16 +37,65 @@ public class KMeans {
         Path input = new Path(args[0]);
         Path centers = new Path(args[1]);
         Path output = new Path(args[2]);
-        Path outputTemp = new Path(args[2] + "/temp");
+       // Path outputTemp = new Path(args[2] + "/temp");
 
-        run(input, outputTemp, centers);
-        writeFile(outputTemp.toString(), input.toString());
-     /*  int i = 1;
-        while(i<=6 && true){
         run(input, output, centers);
-        i++;
-        }*/
+        saveOutput(output);
+        writeFile(output.toString(), input.toString());
+        int i = 1;
+        while (i < 6 && true) {
+            run(input, output, centers);
+            i++;
+        }
     }
+
+    public static void saveOutput(Path input) throws IOException {
+        Configuration conf = new Configuration();
+
+       // FileSystem fs = FileSystem.get(path.toUri(), conf);
+        FSDataInputStream in = null;
+        OutputStream out = null;
+        try {
+            FileSystem fs = FileSystem.get(conf);
+            // Input file path
+            Path inFile = input;
+            // Check if file exists at the given location
+            if (!fs.exists(inFile)) {
+                System.out.println("Input file not found");
+                throw new IOException("Input file not found");
+            }
+            // open and read from file
+            in = fs.open(inFile);
+            //displaying file content on terminal
+            out = System.out;
+            byte buffer[] = new byte[256];
+
+            int bytesRead = 0;
+            while ((bytesRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, bytesRead);
+            }
+
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            // Closing streams
+            try {
+                if(in != null) {
+                    in.close();
+                }
+                if(out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
     public static void writeFile(String input, String output) throws IOException {
         FileInputStream fis = new FileInputStream(input);
@@ -59,7 +114,7 @@ public class KMeans {
     public static void run(Path input, Path output, Path centers) throws IOException, ClassNotFoundException, InterruptedException {
 
         hasNOTChanged = false;
-        numChanges =0;
+        numChanges = 0;
         Configuration config = new Configuration();
         config.set("centroids", centers.toString());
         Job job = new Job(config, "wordcount");
