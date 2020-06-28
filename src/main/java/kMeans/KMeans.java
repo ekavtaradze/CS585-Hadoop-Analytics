@@ -88,6 +88,7 @@ public class KMeans {
         FileInputFormat.addInputPath(job, input);
 
         job.setMapperClass(KMeansMapper.class);
+        job.setCombinerClass(KMeansCombiner.class);
         job.setReducerClass(KMeansReducer.class);
 
 
