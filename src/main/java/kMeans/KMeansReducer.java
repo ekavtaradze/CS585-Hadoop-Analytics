@@ -26,10 +26,10 @@ public class KMeansReducer extends Reducer<Text, Text, Object, Text> {
         Double yAverage = ySum/y;
         Centroid oldCenter = new Centroid(key.toString());
         Centroid newCenter = new Centroid(xAverage, yAverage);
-        if(oldCenter.equals(newCenter)){
-            KMeans.centersDidNotChange();
-        }
-        context.write(new Text(xAverage +","+yAverage), null);
+       // if(oldCenter.equals(newCenter)){
+       //     KMeans.centersDidNotChange();
+       // }
+        context.write(new Text(newCenter.toString()), null);
     }
 
 }
