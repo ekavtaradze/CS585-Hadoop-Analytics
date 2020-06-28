@@ -6,7 +6,8 @@ Michael Ludwig - Problems 3 & 4
 
 How to run 
 Problem 2
-    NEED TO ADD ITERATION CONTROL
+    Lacks 1 part of iteration/termination control - checking if the points changed
+        Needs to be added: file converter/
     Program inputs: datasetPLOCATION centroidsLOCATION outputLOCATION
 to run with included Intellij project: 
     Run as application

@@ -1,6 +1,7 @@
 package kMeans;
 
 import kMeans.Enums.Centroid;
+import kMeans.Enums.CentroidList;
 import kMeans.Enums.Point;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -29,6 +30,7 @@ public class KMeansReducer extends Reducer<Text, Text, Object, Text> {
        // if(oldCenter.equals(newCenter)){
        //     KMeans.centersDidNotChange();
        // }
+
         context.write(new Text(newCenter.toString()), null);
     }
 
