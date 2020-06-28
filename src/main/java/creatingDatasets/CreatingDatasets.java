@@ -1,4 +1,4 @@
-package problemOne;
+package creatingDatasets;
 
 import javafx.util.Pair;
 
@@ -23,24 +23,28 @@ public class CreatingDatasets {
     //Space min and max
     static int min = 1;
     static int max = 10000;
+    static int fileSizeMin = 104857600; // more than 100 mb
 
     static int minCentroid = 10;
     static int maxCentroid = 100;
 
-    static Hashtable<String, String> pCoordinates = new Hashtable<String, String>();
+   /* static Hashtable<String, String> pCoordinates = new Hashtable<String, String>();
     static Hashtable<String, String> rCoordinates = new Hashtable<String, String>();
-    static Hashtable<String, String> rCoordinatesWidthAndHeight = new Hashtable<String, String>();
+    static Hashtable<String, String> rCoordinatesWidthAndHeight = new Hashtable<String, String>();*/
 
     public static void main(String[] args) {
-        // createDatasets();
+        createDatasets();
         createCentroids();
     }
 
     public static void createCentroids() {
         try {
-            String nameP = "kMeans/centroids.txt";
+            System.out.println("Creating Centroids");
+            String nameP = "centroids.txt";
 
             File centroids = new File(nameP);
+           // centroids.getParentFile().mkdirs();
+            //centroids.createNewFile();
 
             BufferedWriter writerP = new BufferedWriter(new FileWriter(centroids));
 
@@ -48,7 +52,7 @@ public class CreatingDatasets {
 
             int i = 0;
             while (i < numOfCentroids) { //100MB
-                writerP.write(createRandomInt(minCentroid, maxCentroid) + " " +
+                writerP.write(createRandomInt(minCentroid, maxCentroid) + "," +
                         createRandomInt(minCentroid, maxCentroid));
                 writerP.newLine();
                 i++;
@@ -61,8 +65,9 @@ public class CreatingDatasets {
 
     public static void createDatasets() {
         try {
-            String nameP = "datasetPNoDuplicates.txt";
-            String nameR = "datasetRNoDuplicates.txt";
+            System.out.println("Creating datasets P and R");
+            String nameP = "datasetP.txt";
+            String nameR = "datasetR.txt";
 
             File datasetP = new File(nameP);
             File datasetR = new File(nameR);
@@ -70,12 +75,12 @@ public class CreatingDatasets {
             BufferedWriter writerP = new BufferedWriter(new FileWriter(nameP));
             BufferedWriter writerR = new BufferedWriter(new FileWriter(nameR));
 
-            while (datasetP.length() <= 104857600) { //100MB
-                writerP.write(createP(min, max));
+            while (datasetP.length() <= fileSizeMin) { //100MB
+                writerP.write(createP());
                 writerP.newLine();
             }
             writerP.close();
-            while (datasetR.length() <= 104857600) { //100MB
+            while (datasetR.length() <= fileSizeMin) { //100MB
                 writerR.write(createR());
                 writerR.newLine();
             }
@@ -95,17 +100,18 @@ public class CreatingDatasets {
     }
 
 
-    public static String createP(int min, int max) {
+    public static String createP() {
         int x = createRandomInt(min, max);
         int y = createRandomInt(min, max);
         String pair = x + "" + y;
-        if (pCoordinates.containsKey(pair)) {
+        return pair;
+       /* if (pCoordinates.containsKey(pair)) {
             createRandomCoordinates(min, max);
             return "null";
         } else {
             pCoordinates.put(pair, "");
             return x + "," + y;
-        }
+        }*/
 
     }
 
@@ -120,13 +126,14 @@ public class CreatingDatasets {
         int width = createRandomInt(1, 5);
         int height = createRandomInt(1, 20);
 
-        String pair = x + "" + y;
-        String whPair = pair + "" + width + "" + height;
+        String pair = x + "," + y;
+        String whPair = pair + "," + width + "," + height;
 
-        if (rCoordinatesWidthAndHeight.containsKey(whPair)) {
+        return whPair;
+      /*  if (rCoordinatesWidthAndHeight.containsKey(whPair)) {
             createR();
         } else {
-            rCoordinatesWidthAndHeight.put(whPair, "");
+            rCoordinatesWidthAndHeight.put(whPair, null);
             if (x + width <= max && x + height <= max
                     && y + width <= max && y + height <= max) {
                 return x + "," + y + "," + height + "," + width;
@@ -136,6 +143,6 @@ public class CreatingDatasets {
         }
 
         System.out.println("not found");
-        return "not found";
+        return "not found";*/
     }
 }

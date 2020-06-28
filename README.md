@@ -11,7 +11,7 @@ Problem 2
     Program inputs: datasetPLOCATION centroidsLOCATION outputLOCATION
 to run with included Intellij project: 
     Run as application
-    Program inputs
+    Program inputs: datasetP.txt centroids.txt kMeansOutput
    
 
 Information/Assumptions
