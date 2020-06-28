@@ -18,53 +18,6 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class KMeans {
-    public static class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
-        // private final IntWritable one = new IntWritable(1);
-
-        private Text word = new Text();
-        private List<Centroid> centroids = new ArrayList<Centroid>();
-
-        /**
-         * setup should be called only once before the task begis
-         * reads the centroids dataset, so that each mapped records has access to it
-         *
-         * @param context
-         * @throws IOException
-         */
-        protected void setup(Context context) throws IOException {
-            Configuration conf = context.getConfiguration();
-            Path centroidsPath = new Path(conf.get("centroids"));
-
-            FileSystem fs = FileSystem.get(context.getConfiguration());
-            InputStreamReader inputStream = new InputStreamReader(fs.open(centroidsPath));
-
-            BufferedReader reader = new BufferedReader(inputStream);
-            String line = reader.readLine();
-            while (line != null) {
-                centroids.add(new Centroid(line));
-                line = reader.readLine();
-            }
-            reader.close();
-        }
-
-        public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-            String line = value.toString();
-            Point point = new Point(line);
-
-            Double minDistance = Double.MAX_VALUE;
-            Centroid minCenter = null;
-
-            for (Centroid centroid : centroids) {
-                Double compare = Distance.findEucledianDistance(centroid, point);
-                if (minDistance > compare) {
-                    minDistance = compare;
-                    minCenter = centroid;
-                }
-            }
-            context.write(new Text(minCenter.toString()), new Text(minDistance.toString()));
-
-        }
-    }
 
     public static class KMeansReducer extends Reducer<Object, Text, Object, Text> {
         public void reduce(Object key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
