@@ -37,21 +37,24 @@ public class KMeans {
         Path input = new Path(args[0]);
         Path centers = new Path(args[1]);
         Path output = new Path(args[2]);
-       // Path outputTemp = new Path(args[2] + "/temp");
+       //
 
         run(input, output, centers);
-        saveOutput(output);
-        writeFile(output.toString(), input.toString());
+        Path outputTemp = new Path(args[2] + "/part-r-00000");
+        saveOutput(outputTemp);
+        //System.out.println("Input file not found");
+        //writeFile(output.toString(), input.toString());
         int i = 1;
         while (i < 6 && true) {
-            run(input, output, centers);
+           // run(input, output, centers);
             i++;
         }
     }
 
     public static void saveOutput(Path input) throws IOException {
+       // System.out.println("Input file not found");
         Configuration conf = new Configuration();
-
+        System.out.println("saveOutput");
        // FileSystem fs = FileSystem.get(path.toUri(), conf);
         FSDataInputStream in = null;
         OutputStream out = null;
@@ -67,6 +70,7 @@ public class KMeans {
             // open and read from file
             in = fs.open(inFile);
             //displaying file content on terminal
+            System.out.println("elene");
             out = System.out;
             byte buffer[] = new byte[256];
 
@@ -78,7 +82,9 @@ public class KMeans {
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
+            System.out.println("error");
             e.printStackTrace();
+
         }finally {
             // Closing streams
             try {
@@ -89,6 +95,7 @@ public class KMeans {
                     out.close();
                 }
             } catch (IOException e) {
+                System.out.println("error2");
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -140,7 +147,8 @@ public class KMeans {
 
         FileOutputFormat.setOutputPath(job, output);
 
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+       // System.exit(job.waitForCompletion(true) ? 0 : 1);
+        job.waitForCompletion(true);
     }
 
 

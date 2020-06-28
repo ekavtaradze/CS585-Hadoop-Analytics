@@ -22,9 +22,10 @@ public class KMeansCombiner extends Reducer<Text, Text, Text, Text> {
             x++; y++;
             xSum += point.getX();
             ySum += point.getY();
-            System.out.println("Combinerhere");
+
         }
         Text output = new Text(xSum +","+x +","+ySum+","+y);
+      //  System.out.println(key.toString()+"   "+output.toString());
         context.write(key, output);
     }
 }

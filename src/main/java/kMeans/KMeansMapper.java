@@ -40,6 +40,7 @@ public class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
         int i =0;
         while (line != null) {
             centroids.add(new Centroid(line));
+           // System.out.println(line);
             line = reader.readLine();
             i++;
         }
@@ -55,12 +56,15 @@ public class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
         Centroid center = null;
 
         for (Centroid centroid : centroids) {
+
             Double compare = Distance.findEucledianDistance(centroid, point);
             if (minDistance > compare) {
                 minDistance = compare;
+
                 center = centroid;
             }
         }
+       // System.out.println(center.toString() +"  "+point.toString());
         context.write(new Text(center.toString()), new Text(point.toString()));
 
     }
