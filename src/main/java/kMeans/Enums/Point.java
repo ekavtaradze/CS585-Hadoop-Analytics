@@ -11,18 +11,16 @@ public class Point {
     private double y;
     //private static Map<String, String> centroids = new HashMap<String, String>();
 
-    public Point(){
+    public Point() {
 
     }
 
-    public Point(String lineOfCenters){
+    public Point(String lineOfCenters) {
         String[] split = lineOfCenters.split(",");
         String x = split[0];
         String y = split[1];
         this.x = Double.parseDouble(x);
         this.y = Double.parseDouble(y);
-        //  this.x = Integer.parseInt(x);
-        // this.y = Integer.parseInt(y);
     }
 
     public double getX() {
@@ -41,7 +39,7 @@ public class Point {
         this.y = y;
     }
 
-    public String toString(){
-        return x+","+y;
+    public String toString() {
+        return x + "," + y;
     }
 }

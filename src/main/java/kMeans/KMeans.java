@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import kMeans.Enums.Centroid;
 import kMeans.Enums.Point;
@@ -21,29 +19,30 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-public class IterationControl {
+public class KMeans {
     public class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
         // private final IntWritable one = new IntWritable(1);
 
         private Text word = new Text();
         private List<Centroid> centroids = new ArrayList<Centroid>();
 
-        /*setup should be called only once before the task begins
-        so hopefully
-        * */
+        /**
+         * setup should be called only once before the task begis
+         * reads the centroids dataset, so that each mapped records has access to it
+         * @param context
+         * @throws IOException
+         */
         protected void setup(Context context) throws IOException {
             Configuration conf = context.getConfiguration();
-            Path centroidsPath = new Path(conf.get("centers"));
-            //  CentroidTracker centroidTracker = new CentroidTracker();
+            Path centroidsPath = new Path(conf.get("centroids"));
+
             FileSystem fs = FileSystem.get(context.getConfiguration());
             InputStreamReader inputStream = new InputStreamReader(fs.open(centroidsPath));
 
             BufferedReader reader = new BufferedReader(inputStream);
             String line = reader.readLine();
             while (line != null) {
-                //centroidTracker.add(line);
                 centroids.add(new Centroid(line));
-              //  System.out.println(centroids.contains());
                 line = reader.readLine();
             }
             reader.close();
@@ -51,8 +50,6 @@ public class IterationControl {
 
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
             String line = value.toString();
-            String[] points =line.split(",");
-
             Point point = new Point(line);
 
             Double minDistance = Double.MAX_VALUE;
@@ -79,22 +76,38 @@ public class IterationControl {
     }
 
     static int maxIteration = 6; //max number of iterations allowed
-    static String centroidPath = "kMeans/centroids.txt";
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
 
-
-        Configuration conf = new Configuration();
-        // String[] files=new GenericOptionsParser(c,args).getRemainingArgs();
         Path input = new Path(args[0]);
         Path centers = new Path(args[1]);
-        Path output = new Path(args[2]);
+        Path outputFinal = new Path(args[2]);
+        Path outputTemp = new Path(args[2] +"/temp");
 
+        run(input, outputTemp, centers);
+       /* int i = 1;
+        while(i<=6 && true){
+        run(input, outputTemp, centers);
+        i++;
+        }*/
+    }
 
-        conf.set("centers", centers.toString());
-        Job job = new Job(conf, "wordcount");
+    public static void run(Path input, Path output, Path centers) throws IOException, ClassNotFoundException, InterruptedException {
 
-        job.setJarByClass(IterationControl.class);
+//        Path input = new Path(args[0]);
+//        Path centers = new Path(args[1]);
+//        Path output = new Path(args[2]);
+
+        Configuration config = new Configuration();
+        config.set("centroids", centers.toString());
+        Job job = new Job(config, "wordcount");
+
+        FileSystem fs = FileSystem.get(output.toUri(), config);
+        if (fs.exists(output)) {
+            fs.delete(output, true);
+        }
+
+        job.setJarByClass(KMeans.class);
 
         FileInputFormat.addInputPath(job, input);
 
@@ -108,8 +121,6 @@ public class IterationControl {
         FileOutputFormat.setOutputPath(job, output);
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
-
-
     }
 
 

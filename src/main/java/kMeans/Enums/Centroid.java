@@ -21,8 +21,6 @@ public class Centroid {
         String y = split[1];
         this.x = Double.parseDouble(x);
         this.y = Double.parseDouble(y);
-      //  this.x = Integer.parseInt(x);
-       // this.y = Integer.parseInt(y);
     }
 
     public double getX() {
