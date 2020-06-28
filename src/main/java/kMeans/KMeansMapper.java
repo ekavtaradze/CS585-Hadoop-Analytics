@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
+public class KMeansMapper extends Mapper<LongWritable, Text, Centroid, Point> {
     // private final IntWritable one = new IntWritable(1);
 
     private Text word = new Text();
@@ -49,16 +49,16 @@ public class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
         Point point = new Point(line);
 
         Double minDistance = Double.MAX_VALUE;
-        Centroid minCenter = null;
+        Centroid center = null;
 
         for (Centroid centroid : centroids) {
             Double compare = Distance.findEucledianDistance(centroid, point);
             if (minDistance > compare) {
                 minDistance = compare;
-                minCenter = centroid;
+                center = centroid;
             }
         }
-        context.write(new Text(minCenter.toString()), new Text(minDistance.toString()));
+        context.write(center, point);
 
     }
 }
