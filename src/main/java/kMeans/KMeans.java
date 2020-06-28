@@ -90,6 +90,7 @@ public class KMeans {
         job.setMapperClass(KMeansMapper.class);
         job.setCombinerClass(KMeansCombiner.class);
         job.setReducerClass(KMeansReducer.class);
+        job.setNumReduceTasks(1);
 
 
         job.setOutputKeyClass(Text.class);

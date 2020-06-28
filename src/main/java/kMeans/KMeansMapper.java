@@ -61,7 +61,7 @@ public class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
                 center = centroid;
             }
         }
-        context.write(new Text(center.toString()), new Text(minDistance.toString()));
+        context.write(new Text(center.toString()), new Text(point.toString()));
 
     }
 }

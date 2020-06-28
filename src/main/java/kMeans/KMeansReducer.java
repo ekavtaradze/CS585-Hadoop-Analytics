@@ -13,7 +13,7 @@ public class KMeansReducer extends Reducer<Text, Text, Object, Text> {
         int y = 0;
         Double xSum = 0.0;
         Double ySum = 0.0;
-
+        System.out.println("reducer");
         //Output of combiner  Text output = new Text(xSum +","+x +","+ySum+","+y);
         for (Text value : values) {
             String[] vals = value.toString().split(",");
