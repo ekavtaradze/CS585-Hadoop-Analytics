@@ -37,10 +37,13 @@ public class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
 
         BufferedReader reader = new BufferedReader(inputStream);
         String line = reader.readLine();
+        int i =0;
         while (line != null) {
             centroids.add(new Centroid(line));
             line = reader.readLine();
+            i++;
         }
+        KMeans.setNumOfCentroids(i);
         reader.close();
     }
 

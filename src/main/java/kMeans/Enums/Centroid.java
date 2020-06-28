@@ -22,6 +22,10 @@ public class Centroid {
         this.x = Double.parseDouble(x);
         this.y = Double.parseDouble(y);
     }
+    public Centroid(Double x, Double y){
+        this.x = x;
+        this.y = y;
+    }
 
     public double getX() {
         return x;
@@ -41,5 +45,13 @@ public class Centroid {
 
     public String toString(){
         return x+" "+y;
+    }
+
+    public boolean equals(Centroid n){
+        if(this.x==n.getX() && this.y==n.getY()){
+            return true;
+        }
+        return false;
+
     }
 }

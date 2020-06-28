@@ -1,13 +1,35 @@
 package kMeans;
 
+import kMeans.Enums.Centroid;
+import kMeans.Enums.Point;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class KMeansReducer extends Reducer<Object, Text, Object, Text> {
-    public void reduce(Object key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-        context.write(new Text("elene,"), null);
+public class KMeansReducer extends Reducer<Text, Text, Object, Text> {
+    public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+        int x = 0;
+        int y = 0;
+        Double xSum = 0.0;
+        Double ySum = 0.0;
+
+        //Output of combiner  Text output = new Text(xSum +","+x +","+ySum+","+y);
+        for (Text value : values) {
+            String[] vals = value.toString().split(",");
+            x += Integer.parseInt(vals[1]);
+            y += Integer.parseInt(vals[3]);
+            xSum += Double.parseDouble(vals[0]);
+            ySum += Double.parseDouble(vals[2]);
+        }
+        Double xAverage = xSum/x;
+        Double yAverage = ySum/y;
+        Centroid oldCenter = new Centroid(key.toString());
+        Centroid newCenter = new Centroid(xAverage, yAverage);
+        if(oldCenter.equals(newCenter)){
+            KMeans.centersDidNotChange();
+        }
+        context.write(new Text(xAverage +","+yAverage), null);
     }
 
 }

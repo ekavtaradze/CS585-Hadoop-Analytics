@@ -19,7 +19,20 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class KMeans {
 
-    static int maxIteration = 6; //max number of iterations allowed
+    private static int maxIteration = 6; //max number of iterations allowed
+    private static boolean hasNOTChanged = false;
+    private static int numOfCentroids = 0;
+    private static int numChanges = 0;
+
+    public static void setNumOfCentroids(int num) {
+        numOfCentroids = num;
+    }
+
+    public static void centersDidNotChange() {
+        if (numChanges == numOfCentroids) {
+            hasNOTChanged = true;
+        }
+    }
 
     public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
 
@@ -29,7 +42,7 @@ public class KMeans {
         Path outputTemp = new Path(args[2] + "/temp");
 
         run(input, outputTemp, centers);
-       // writeFile(outputTemp.toString(), input.toString());
+        // writeFile(outputTemp.toString(), input.toString());
      /*  int i = 1;
         while(i<=6 && true){
         run(input, output, centers);
@@ -59,6 +72,8 @@ public class KMeans {
 //        Path centers = new Path(args[1]);
 //        Path output = new Path(args[2]);
 
+        hasNOTChanged = false;
+        numChanges =0;
         Configuration config = new Configuration();
         config.set("centroids", centers.toString());
         Job job = new Job(config, "wordcount");
@@ -74,7 +89,6 @@ public class KMeans {
 
         job.setMapperClass(KMeansMapper.class);
         job.setReducerClass(KMeansReducer.class);
-
 
 
         job.setOutputKeyClass(Text.class);
