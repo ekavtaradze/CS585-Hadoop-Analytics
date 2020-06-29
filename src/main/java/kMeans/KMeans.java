@@ -69,14 +69,11 @@ public class KMeans {
         ArrayList<Centroid> list = new ArrayList<Centroid>();
         try {
             FileSystem fs = FileSystem.get(conf);
-            // Input file path
             Path inFile = input;
-            // Check if file exists at the given location
             if (!fs.exists(inFile)) {
                 System.out.println("Input file not found");
                 throw new IOException("Input file not found");
             }
-            // open and read from file
             in = fs.open(inFile);
             String str = IOUtils.toString(in, "UTF-8");
             String[] split = str.split("\n");
@@ -89,10 +86,7 @@ public class KMeans {
             fs.close();
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            System.out.println("error");
             e.printStackTrace();
-
         }
 
         return list;
