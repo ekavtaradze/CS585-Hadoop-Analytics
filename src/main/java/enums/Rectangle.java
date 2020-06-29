@@ -6,15 +6,16 @@ public class Rectangle {
     private double yBottomLeft;
     private double height;
     private double width;
-    private String asString;
+    private String input;
 
     public Rectangle(String line) {
+        input = line;
         String[] parts = line.split(",");
-        xBottomLeft = Integer.parseInt(parts[0]);
-        yBottomLeft = Integer.parseInt(parts[1]);
-        height = Integer.parseInt(parts[2]);
-        width = Integer.parseInt(parts[3]);
-        asString = line;
+        xBottomLeft = Double.parseDouble(parts[0]);
+        yBottomLeft = Double.parseDouble(parts[1]);
+        height = Double.parseDouble(parts[2]);
+        width = Double.parseDouble(parts[3]);
+
     }
 
     public double getxBottomLeft() {
@@ -52,14 +53,14 @@ public class Rectangle {
     public boolean insideThisRectangle(Point point) {
         double x = point.getX();
         double y = point.getY();
-        if (x >= xBottomLeft && x <= (xBottomLeft + height) && x <= (xBottomLeft + width)
-                && y >= yBottomLeft && y <= (yBottomLeft + height) && y <= (yBottomLeft + width)) {
-                return true;
+        if (x >= xBottomLeft && x <= (xBottomLeft + width)
+                && y >= yBottomLeft && y <= (yBottomLeft + height)) {
+            return true;
         }
         return false;
     }
 
-    public String toString(){
-        return asString;
+    public String toString() {
+        return input;
     }
 }

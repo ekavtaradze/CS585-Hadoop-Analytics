@@ -1,6 +1,7 @@
 package spatialJoin;
 
 import enums.Rectangle;
+import enums.Window;
 import kMeans.Distance;
 import enums.Centroid;
 import enums.Point;
@@ -18,11 +19,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpatialJoinMapper extends Mapper<LongWritable, Text, Rectangle, Point> {
+public class SpatialJoinMapper extends Mapper<LongWritable, Text, Text, Text> {
     // private final IntWritable one = new IntWritable(1);
 
-   // private Text word = new Text();
-   private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
+    // private Text word = new Text();
+    private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
 
     /**
      * setup should be called only once before the task begis
@@ -32,39 +33,54 @@ public class SpatialJoinMapper extends Mapper<LongWritable, Text, Rectangle, Poi
      * @throws IOException
      */
     protected void setup(Context context) throws IOException {
+
+        System.out.println("Entering SpatialJoin Mapper Setup");
+
         Configuration conf = context.getConfiguration();
-        Path centroidsPath = new Path(conf.get("rectangles"));
+
+        Path datasetRPath = new Path(conf.get("rectangles"));
         FileSystem fs = FileSystem.get(context.getConfiguration());
-        InputStreamReader inputStream = new InputStreamReader(fs.open(centroidsPath));
+        InputStreamReader inputStream = new InputStreamReader(fs.open(datasetRPath));
         BufferedReader reader = new BufferedReader(inputStream);
         String line = reader.readLine();
-        int i =0;
+
+        Window window = new Window(conf.get("windowOfOperation"));
+
+        Rectangle rectangle;
+        // int i =0;
         while (line != null) {
-            rectangles.add(new Rectangle(line));
-           // System.out.println(line);
+            // System.out.println(line);
+            rectangle = new Rectangle(line);
+            if(window.rectangleIsInside(rectangle)){
+                rectangles.add(rectangle);
+            }
+
             line = reader.readLine();
-            i++;
+            //  i++;
         }
-        KMeans.setNumOfCentroids(i);
         reader.close();
+        System.out.println("Exiting SpatialJoin Mapper Setup" + rectangles.size());
     }
 
     //processes Pints
     public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
+        //System.out.println("Entering SpatialJoin Mapper map");
         String line = value.toString();
-
+        Configuration conf = context.getConfiguration();
+        Window window = new Window(conf.get("windowOfOperation"));
         Point point = new Point(line);
-        for (Rectangle rectangle : rectangles) {
-
-            if(rectangle.insideThisRectangle(point)){
-                //context.write(new Text(rectangle.toString()), new Text(point.toString()));
-                context.write(rectangle, point);
+        //  System.out.println(point.toString());
+        int length = rectangles.size();
+        int i =0;
+        for(Rectangle rectangle: rectangles){
+            if(rectangle.insideThisRectangle(point)){ // && window.pointIsInside(point)
+                //System.out.println("Passed"+rectangle.toString()+" "+point.toString());
+                context.write(new Text(rectangle.toString()), new Text(point.toString()));
+                //context.write(rectangle, point);
             }
-
         }
 
-
+        // System.out.println("Exiting SpatialJoin Mapper map");
     }
 }
-
