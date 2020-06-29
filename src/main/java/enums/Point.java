@@ -4,7 +4,6 @@ public class Point {
 
     private double x;
     private double y;
-    //private static Map<String, String> centroids = new HashMap<String, String>();
 
     public Point() {
 

@@ -11,7 +11,6 @@ public class SpatialJoinReducer extends Reducer<Text, Text, Text, Text> {
 
         for (Text text : values) {
             Point point = new Point(text.toString());
-            System.out.println(point.toString());
             context.write(new Text(key.toString()), new Text(point.toString()));
         }
     }

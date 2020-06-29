@@ -4,20 +4,20 @@ public class Centroid {
 
     private double x;
     private double y;
-    //private static Map<String, String> centroids = new HashMap<String, String>();
 
-    public Centroid(){
+    public Centroid() {
 
     }
 
-    public Centroid(String lineOfCenters){
+    public Centroid(String lineOfCenters) {
         String[] split = lineOfCenters.split(",");
         String x = split[0];
         String y = split[1];
         this.x = Double.parseDouble(x);
         this.y = Double.parseDouble(y);
     }
-    public Centroid(Double x, Double y){
+
+    public Centroid(Double x, Double y) {
         this.x = x;
         this.y = y;
     }
@@ -38,15 +38,8 @@ public class Centroid {
         this.y = y;
     }
 
-    public String toString(){
-        return x+","+y;
+    public String toString() {
+        return x + "," + y;
     }
 
-    public boolean equals(Centroid n){
-        if(this.x==n.getX() && this.y==n.getY()){
-            return true;
-        }
-        return false;
-
-    }
 }

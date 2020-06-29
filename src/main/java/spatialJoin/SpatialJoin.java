@@ -23,7 +23,6 @@ public class SpatialJoin {
         Path datasetP = new Path(args[0]);
         Path datasetR = new Path(args[1]);
         Path output = new Path(args[2]);
-        ;
 
         String window = null;
 
@@ -56,6 +55,5 @@ public class SpatialJoin {
         FileOutputFormat.setOutputPath(job, output);
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
-        // job.waitForCompletion(true);
     }
 }

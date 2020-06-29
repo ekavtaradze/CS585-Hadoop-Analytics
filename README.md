@@ -5,13 +5,27 @@ author: Elene Kavtaradze - Problems 1 & 2 - dataset P was shared with Michael fo
 Michael Ludwig - Problems 3 & 4
 
 How to run 
-Problem 2
-    Lacks 1 part of iteration/termination control - checking if the points changed
-        Needs to be added: file converter/
-    Program inputs: datasetPLOCATION centroidsLOCATION outputLOCATION
-to run with included Intellij project: 
+(to run with included Intellij project)
+
+Problem 1
+    Part 1 - creatingDatasets
+        Takes a while to generate two 100 mb files. 
+        Run as application
+        No Program Inputs
+    Part 2 - spatialJoin
+        Run as application
+        Program Inputs: datasetP.txt datasetR.txt spatialJoinOutPut
+     
+        ex: smallTestingData/datasetP.txt smallTestingData/datasetR.txt spatialJoinOutput
+            smallerTestingData/datasetP.txt smallerTestingData/datasetR.txt spatialJoinOutput
+        
+        
+Problem 2 - kMeans
     Run as application
     Program inputs: datasetP.txt centroids.txt kMeansOutput
+    
+    ex: smallTestingData/datasetP.txt smallTestingData/datasetR.txt spatialJoinOutput
+        smallerTestingData/datasetP.txt smallerTestingData/datasetR.txt spatialJoinOutput
    
 
 Information/Assumptions

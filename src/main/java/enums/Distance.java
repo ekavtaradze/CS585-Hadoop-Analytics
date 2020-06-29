@@ -1,14 +1,9 @@
-package kMeans;
-
-import enums.Centroid;
-import enums.Point;
+package enums;
 
 public class Distance {
 
 
-    public Distance() {
-
-    }
+    public Distance() {}
 
     public static double findEucledianDistance(Centroid centroid, Point point) {
 

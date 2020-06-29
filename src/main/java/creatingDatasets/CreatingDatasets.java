@@ -27,10 +27,6 @@ public class CreatingDatasets {
     static int minCentroid = 10;
     static int maxCentroid = 100;
 
-   /* static Hashtable<String, String> pCoordinates = new Hashtable<String, String>();
-    static Hashtable<String, String> rCoordinates = new Hashtable<String, String>();
-    static Hashtable<String, String> rCoordinatesWidthAndHeight = new Hashtable<String, String>();*/
-
     public static void main(String[] args) {
         createDatasets();
         createCentroids();
@@ -38,12 +34,10 @@ public class CreatingDatasets {
 
     public static void createCentroids() {
         try {
-            System.out.println("Creating Centroids");
+            System.out.println("Creating dataset Centroids");
             String nameP = "centroids.txt";
 
             File centroids = new File(nameP);
-           // centroids.getParentFile().mkdirs();
-            //centroids.createNewFile();
 
             BufferedWriter writerP = new BufferedWriter(new FileWriter(centroids));
 
@@ -57,8 +51,9 @@ public class CreatingDatasets {
                 i++;
             }
             writerP.close();
+            System.out.println("Done creating dataset Centroids");
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -84,8 +79,9 @@ public class CreatingDatasets {
                 writerR.newLine();
             }
             writerR.close();
+            System.out.println("Done creating datasets P and R");
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -94,31 +90,14 @@ public class CreatingDatasets {
         return random.nextInt((max - min) + 1) + min;
     }
 
-    public static Pair<Integer, Integer> createRandomCoordinates(int min, int max) {
-        return new Pair(createRandomInt(min, max), createRandomInt(min, max));
-    }
-
-
     public static String createP() {
         int x = createRandomInt(min, max);
         int y = createRandomInt(min, max);
         String pair = x + "" + y;
         return pair;
-       /* if (pCoordinates.containsKey(pair)) {
-            createRandomCoordinates(min, max);
-            return "null";
-        } else {
-            pCoordinates.put(pair, "");
-            return x + "," + y;
-        }*/
-
     }
 
     public static String createR() {
-        // Pair<Integer, Integer> coordinates = createRandomCoordinates(min, max);
-        // int x1 = coordinates.getKey(); //bottomLeftX
-        // int y1 = coordinates.getValue(); //bottomLeftY
-
         int x = createRandomInt(min, max); //bottomLeftX
         int y = createRandomInt(min, max); //bottomLeftY
 
@@ -129,19 +108,5 @@ public class CreatingDatasets {
         String whPair = pair + "," + height + "," + width;
 
         return whPair;
-      /*  if (rCoordinatesWidthAndHeight.containsKey(whPair)) {
-            createR();
-        } else {
-            rCoordinatesWidthAndHeight.put(whPair, null);
-            if (x + width <= max && x + height <= max
-                    && y + width <= max && y + height <= max) {
-                return x + "," + y + "," + height + "," + width;
-            } else {
-                createR();
-            }
-        }
-
-        System.out.println("not found");
-        return "not found";*/
     }
 }

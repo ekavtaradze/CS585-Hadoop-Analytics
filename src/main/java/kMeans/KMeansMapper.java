@@ -1,6 +1,7 @@
 package kMeans;
 
 import enums.Centroid;
+import enums.Distance;
 import enums.Point;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -16,9 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
-    // private final IntWritable one = new IntWritable(1);
 
-    private Text word = new Text();
     private List<Centroid> centroids = new ArrayList<Centroid>();
 
     /**
@@ -37,14 +36,10 @@ public class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
 
         BufferedReader reader = new BufferedReader(inputStream);
         String line = reader.readLine();
-        int i =0;
         while (line != null) {
             centroids.add(new Centroid(line));
-           // System.out.println(line);
             line = reader.readLine();
-            i++;
         }
-        KMeans.setNumOfCentroids(i);
         reader.close();
     }
 
@@ -64,7 +59,6 @@ public class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
                 center = centroid;
             }
         }
-       // System.out.println(center.toString() +"  "+point.toString());
         context.write(new Text(center.toString()), new Text(point.toString()));
 
     }

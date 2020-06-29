@@ -16,33 +16,29 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class KMeans {
 
-    private static int maxIteration = 6; //max number of iterations allowed
-    private static boolean hasNOTChanged = false;
-    private static int numOfCentroids = 0;
-    private static int numChanges = 0;
-    private static ArrayList<Centroid> oldCentroids = new ArrayList<Centroid>();
 
-   /* public static void setNumOfCentroids(int num) {
-        numOfCentroids = num;
-    }*/
+    private static int maxIteration = 6; //max number of iterations allowed
 
     public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
 
-        //first run
+
         Path input = new Path(args[0]);
         Path centers = new Path(args[1]);
         Path output = new Path(args[2]);
+
+        ArrayList<Centroid> oldCentroids;
         ArrayList<Centroid> newCentroids;
+
         Path outputTemp = new Path(args[2] + "/part-r-00000");
 
-        oldCentroids = saveOutput(centers);;
-        for(Centroid c:oldCentroids){
-            System.out.println(c.toString());
-        }
+        oldCentroids = saveOutput(centers);
+
+        //first run // i=0
         run(input, output, centers);
         newCentroids = saveOutput(outputTemp); //write this to centroids
+
         int i = 1;
-        while (i < maxIteration && centroidsHaveNotChanged(oldCentroids ,newCentroids )) {
+        while (i < maxIteration && centroidsHaveNotChanged(oldCentroids, newCentroids)) {
             oldCentroids = newCentroids;
             run(input, output, centers);
             newCentroids = saveOutput(outputTemp);
@@ -51,28 +47,25 @@ public class KMeans {
     }
 
 
-    public static boolean centroidsHaveNotChanged(ArrayList<Centroid> oldC, ArrayList<Centroid> newC){
+    public static boolean centroidsHaveNotChanged(ArrayList<Centroid> oldC, ArrayList<Centroid> newC) {
 
-        for(Centroid c: oldC){
-            System.out.print(c.toString()+" ");
+        for (Centroid c : oldC) {
+            System.out.print(c.toString() + " ");
         }
         System.out.println();
-        for(Centroid c: newC){
-            System.out.print(c.toString()+" ");
+        for (Centroid c : newC) {
+            System.out.print(c.toString() + " ");
         }
         return !oldC.equals(newC);
     }
+
     /**
      * Read from HDFS copied from https://www.netjstech.com/2018/02/java-program-to-read-file-in-hdfs.html
      */
     public static ArrayList<Centroid> saveOutput(Path input) throws IOException {
-        // System.out.println("Input file not found");
 
         Configuration conf = new Configuration();
-        // System.out.println("saveOutput");
-        // FileSystem fs = FileSystem.get(path.toUri(), conf);
         FSDataInputStream in = null;
-        OutputStream out = null;
         ArrayList<Centroid> list = new ArrayList<Centroid>();
         try {
             FileSystem fs = FileSystem.get(conf);
@@ -85,58 +78,30 @@ public class KMeans {
             }
             // open and read from file
             in = fs.open(inFile);
-            String str= IOUtils.toString(in, "UTF-8");
+            String str = IOUtils.toString(in, "UTF-8");
             String[] split = str.split("\n");
-            int i=0;
-            while(i<split.length){
+            int i = 0;
+            while (i < split.length) {
                 list.add(new Centroid(split[i]));
-            i++;
+                i++;
             }
             in.close();
             fs.close();
-            /*
-            //displaying file content on terminal
-            System.out.println("elene");
-            out = System.out;
-            byte buffer[] = new byte[256];
-
-            int bytesRead = 0;
-            while ((bytesRead = in.read(buffer)) > 0) {
-                list.add(new Centroid(buffer.toString()));
-                out.write(buffer, 0, bytesRead);
-            }*/
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
             System.out.println("error");
             e.printStackTrace();
 
-        } /*finally {
-            // Closing streams
-            try {
-                if (in != null) {
-                    in.close();
-                }
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException e) {
-                System.out.println("error2");
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }*/
+        }
 
         return list;
     }
 
 
-
-
     public static void run(Path input, Path output, Path centers) throws IOException, ClassNotFoundException, InterruptedException {
 
-       /* hasNOTChanged = false;
-        numChanges = 0;*/
+
         Configuration config = new Configuration();
         config.set("centroids", centers.toString());
         Job job = new Job(config, "KMeans");
@@ -162,7 +127,6 @@ public class KMeans {
 
         FileOutputFormat.setOutputPath(job, output);
 
-       // System.exit(job.waitForCompletion(true) ? 0 : 1);
         job.waitForCompletion(true);
     }
 
