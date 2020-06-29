@@ -73,6 +73,7 @@ public class KMeans {
         // FileSystem fs = FileSystem.get(path.toUri(), conf);
         FSDataInputStream in = null;
         OutputStream out = null;
+        ArrayList<Centroid> list = new ArrayList<Centroid>();
         try {
             FileSystem fs = FileSystem.get(conf);
             // Input file path
@@ -85,12 +86,21 @@ public class KMeans {
             // open and read from file
             in = fs.open(inFile);
             String str= IOUtils.toString(in, "UTF-8");
-            System.out.println(str);/*
+            String[] split = str.split("\n");
+            int i=0;
+            while(i<split.length){
+                list.add(new Centroid(split[i]));
+            System.out.println(str);
+            i++;
+            }
+            in.close();
+            fs.close();
+            /*
             //displaying file content on terminal
             System.out.println("elene");
             out = System.out;
             byte buffer[] = new byte[256];
-            ArrayList<Centroid> list = new ArrayList<Centroid>();
+
             int bytesRead = 0;
             while ((bytesRead = in.read(buffer)) > 0) {
                 list.add(new Centroid(buffer.toString()));
@@ -102,7 +112,7 @@ public class KMeans {
             System.out.println("error");
             e.printStackTrace();
 
-        } finally {
+        } /*finally {
             // Closing streams
             try {
                 if (in != null) {
@@ -116,7 +126,7 @@ public class KMeans {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        }
+        }*/
 
         return null;
     }
