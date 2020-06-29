@@ -1,8 +1,9 @@
 package spatialJoin;
 
+import enums.Rectangle;
 import kMeans.Distance;
-import kMeans.enums.Centroid;
-import kMeans.enums.Point;
+import enums.Centroid;
+import enums.Point;
 import kMeans.KMeans;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -14,12 +15,14 @@ import org.apache.hadoop.mapreduce.Mapper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SpatialJoinMapper extends Mapper<LongWritable, Text, Text, Text> {
+public class SpatialJoinMapper extends Mapper<LongWritable, Text, Rectangle, Point> {
     // private final IntWritable one = new IntWritable(1);
 
    // private Text word = new Text();
-  //  private List<Centroid> centroids = new ArrayList<Centroid>();
+   private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
 
     /**
      * setup should be called only once before the task begis
@@ -37,7 +40,7 @@ public class SpatialJoinMapper extends Mapper<LongWritable, Text, Text, Text> {
         String line = reader.readLine();
         int i =0;
         while (line != null) {
-            centroids.add(new Centroid(line));
+            rectangles.add(new Rectangle(line));
            // System.out.println(line);
             line = reader.readLine();
             i++;
@@ -46,24 +49,21 @@ public class SpatialJoinMapper extends Mapper<LongWritable, Text, Text, Text> {
         reader.close();
     }
 
+    //processes Pints
     public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+
         String line = value.toString();
+
         Point point = new Point(line);
+        for (Rectangle rectangle : rectangles) {
 
-        Double minDistance = Double.MAX_VALUE;
-        Centroid center = null;
-
-        for (Centroid centroid : centroids) {
-
-            Double compare = Distance.findEucledianDistance(centroid, point);
-            if (minDistance > compare) {
-                minDistance = compare;
-
-                center = centroid;
+            if(rectangle.insideThisRectangle(point)){
+                //context.write(new Text(rectangle.toString()), new Text(point.toString()));
+                context.write(rectangle, point);
             }
+
         }
-       // System.out.println(center.toString() +"  "+point.toString());
-        context.write(new Text(center.toString()), new Text(point.toString()));
+
 
     }
 }

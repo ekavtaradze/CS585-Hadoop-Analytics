@@ -1,6 +1,6 @@
 package kMeans;
 
-import kMeans.enums.Centroid;
+import enums.Centroid;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 

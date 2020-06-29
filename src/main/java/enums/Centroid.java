@@ -1,21 +1,25 @@
-package kMeans.enums;
+package enums;
 
-public class Point {
+public class Centroid {
 
     private double x;
     private double y;
     //private static Map<String, String> centroids = new HashMap<String, String>();
 
-    public Point() {
+    public Centroid(){
 
     }
 
-    public Point(String lineOfCenters) {
+    public Centroid(String lineOfCenters){
         String[] split = lineOfCenters.split(",");
         String x = split[0];
         String y = split[1];
         this.x = Double.parseDouble(x);
         this.y = Double.parseDouble(y);
+    }
+    public Centroid(Double x, Double y){
+        this.x = x;
+        this.y = y;
     }
 
     public double getX() {
@@ -34,7 +38,15 @@ public class Point {
         this.y = y;
     }
 
-    public String toString() {
-        return x + "," + y;
+    public String toString(){
+        return x+","+y;
+    }
+
+    public boolean equals(Centroid n){
+        if(this.x==n.getX() && this.y==n.getY()){
+            return true;
+        }
+        return false;
+
     }
 }

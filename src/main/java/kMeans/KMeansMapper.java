@@ -1,7 +1,7 @@
 package kMeans;
 
-import kMeans.enums.Centroid;
-import kMeans.enums.Point;
+import enums.Centroid;
+import enums.Point;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;

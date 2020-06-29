@@ -3,7 +3,7 @@ package kMeans;
 import java.io.*;
 import java.util.ArrayList;
 
-import kMeans.enums.Centroid;
+import enums.Centroid;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;

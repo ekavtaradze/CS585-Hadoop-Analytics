@@ -1,9 +1,5 @@
 package spatialJoin;
 
-import kMeans.KMeans;
-import kMeans.KMeansCombiner;
-import kMeans.KMeansMapper;
-import kMeans.KMeansReducer;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -37,7 +33,7 @@ public class SpatialJoin {
 
         job.setMapperClass(SpatialJoinMapper.class);
       //  job.setCombinerClass(KMeansCombiner.class);
-        job.setReducerClass(SpacialJoinReducer.class);
+        job.setReducerClass(SpatialJoinReducer.class);
 
 
         job.setOutputKeyClass(Text.class);

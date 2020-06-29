@@ -1,7 +1,7 @@
 package kMeans;
 
-import kMeans.enums.Centroid;
-import kMeans.enums.Point;
+import enums.Centroid;
+import enums.Point;
 
 public class Distance {
 
