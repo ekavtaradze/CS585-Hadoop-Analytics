@@ -53,11 +53,11 @@ public class Window {
         this.yUpper = yUpper;
     }
 
-    boolean isInside(double x, double y) {
-        if ((x >= xLower || x <= xUpper) && (y >= yLower || y <= yUpper)) {
-            return true;
-        }
-        return false;
+    boolean rectangleIsInside(double x, double y) {
+        return ((x >= xLower || x <= xUpper) && (y >= yLower || y <= yUpper));
+    }
+    boolean pointIsInside(double x, double y){
+       return (x >= xLower && x <= xUpper) && (y >= yLower  && y <= yUpper);
     }
 
     public boolean rectangleIsInside(Rectangle rectangle) {
@@ -65,13 +65,13 @@ public class Window {
         double y1 = rectangle.getyBottomLeft();
         double x2 = x1 + rectangle.getWidth();
         double y2 = y1 + rectangle.getHeight();
-        return isInside(x1, y1) || isInside(x2, y2);
+        return rectangleIsInside(x1, y1) || rectangleIsInside(x2, y2);
     }
 
     public boolean pointIsInside(Point point) {
         double x = point.getX();
         double y = point.getY();
-        return isInside(x, y);
+        return pointIsInside(x, y);
     }
 
     public String toString() {
