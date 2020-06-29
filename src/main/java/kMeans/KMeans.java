@@ -60,7 +60,7 @@ public class KMeans {
         for(Centroid c: newC){
             System.out.print(c.toString()+" ");
         }
-        return oldC.equals(newC);
+        return !oldC.equals(newC);
     }
     /**
      * Read from HDFS copied from https://www.netjstech.com/2018/02/java-program-to-read-file-in-hdfs.html
