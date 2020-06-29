@@ -90,7 +90,6 @@ public class KMeans {
             int i=0;
             while(i<split.length){
                 list.add(new Centroid(split[i]));
-            System.out.println(str);
             i++;
             }
             in.close();
@@ -128,7 +127,7 @@ public class KMeans {
             }
         }*/
 
-        return null;
+        return list;
     }
 
 
