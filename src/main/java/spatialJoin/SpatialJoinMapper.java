@@ -74,7 +74,7 @@ public class SpatialJoinMapper extends Mapper<LongWritable, Text, Text, Text> {
         int length = rectangles.size();
         int i =0;
         for(Rectangle rectangle: rectangles){
-            if(rectangle.insideThisRectangle(point)){ // && window.pointIsInside(point)
+            if(rectangle.insideThisRectangle(point) && window.pointIsInside(point)){ // && window.pointIsInside(point)
                 //System.out.println("Passed"+rectangle.toString()+" "+point.toString());
                 context.write(new Text(rectangle.toString()), new Text(point.toString()));
                 //context.write(rectangle, point);
