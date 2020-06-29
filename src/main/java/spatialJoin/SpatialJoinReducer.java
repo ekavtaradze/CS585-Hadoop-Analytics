@@ -7,10 +7,12 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class SpatialJoinReducer extends Reducer<Rectangle, Point, Text, Text> {
-    public void reduce(Rectangle key, Iterable<Point> values, Context context) throws IOException, InterruptedException {
+public class SpatialJoinReducer extends Reducer<Text, Text, Text, Text> {
+    public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
         System.out.println("reducer");
-        for (Point point : values) {
+
+        for (Text text : values) {
+            Point point = new Point(text.toString());
             System.out.println(point.toString());
             context.write(new Text(key.toString()), new Text(point.toString()));
         }
