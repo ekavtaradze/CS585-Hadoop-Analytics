@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 import enums.Centroid;
+import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
@@ -83,6 +84,8 @@ public class KMeans {
             }
             // open and read from file
             in = fs.open(inFile);
+            String str= IOUtils.toString(in, "UTF-8");
+            System.out.println(str);/*
             //displaying file content on terminal
             System.out.println("elene");
             out = System.out;
@@ -92,7 +95,7 @@ public class KMeans {
             while ((bytesRead = in.read(buffer)) > 0) {
                 list.add(new Centroid(buffer.toString()));
                 out.write(buffer, 0, bytesRead);
-            }
+            }*/
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
