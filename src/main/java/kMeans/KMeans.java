@@ -22,14 +22,12 @@ public class KMeans {
     private static int numChanges = 0;
     private static ArrayList<Centroid> oldCentroids = new ArrayList<Centroid>();
 
-    public static void setNumOfCentroids(int num) {
+   /* public static void setNumOfCentroids(int num) {
         numOfCentroids = num;
-    }
+    }*/
 
-    public static void centersDidNotChange() {
-        if (numChanges == numOfCentroids) {
-            hasNOTChanged = true;
-        }
+    public static boolean centersDidNotChange() {
+        return true;
     }
 
     public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
@@ -38,22 +36,20 @@ public class KMeans {
         Path input = new Path(args[0]);
         Path centers = new Path(args[1]);
         Path output = new Path(args[2]);
+        ArrayList<Centroid> newCentroids;
+        Path outputTemp = new Path(args[2] + "/part-r-[0-9]*");
+
         oldCentroids = saveOutput(centers);;
         for(Centroid c:oldCentroids){
             System.out.println(c.toString());
         }
         run(input, output, centers);
-        Path outputTemp = new Path(args[2] + "/part-r-00000");
-        ArrayList<Centroid> newCentroids = saveOutput(outputTemp);
-        //run two
-        //check if has changed
-
-
-
-        //System.out.println("Input file not found");
-        //writeFile(output.toString(), input.toString());
+        newCentroids = saveOutput(outputTemp); //write this to centroids
         int i = 1;
-        while (i < 6 && centroidsHaveNotChanged(oldCentroids ,newCentroids )) {
+        while (i < maxIteration && centroidsHaveNotChanged(oldCentroids ,newCentroids )) {
+            oldCentroids = newCentroids;
+            run(input, output, centers);
+            newCentroids = saveOutput(outputTemp);
             i++;
         }
     }
