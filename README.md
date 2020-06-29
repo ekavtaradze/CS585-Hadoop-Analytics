@@ -23,7 +23,7 @@ Centroids
     Pairs are split by " "
     example: 12 34
     Points generated are ints, but mappers can handle doubles
-Dataset R - Points + width + height
+Dataset R - Points + height + width
     Split by "," 
     example: 1436,5296,9,4
     

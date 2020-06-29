@@ -3,7 +3,6 @@ package creatingDatasets;
 import javafx.util.Pair;
 
 import java.io.*;
-import java.util.Hashtable;
 import java.util.Random;
 
 /**
@@ -123,11 +122,11 @@ public class CreatingDatasets {
         int x = createRandomInt(min, max); //bottomLeftX
         int y = createRandomInt(min, max); //bottomLeftY
 
-        int width = createRandomInt(1, 5);
         int height = createRandomInt(1, 20);
+        int width = createRandomInt(1, 5);
 
         String pair = x + "," + y;
-        String whPair = pair + "," + width + "," + height;
+        String whPair = pair + "," + height + "," + width;
 
         return whPair;
       /*  if (rCoordinatesWidthAndHeight.containsKey(whPair)) {

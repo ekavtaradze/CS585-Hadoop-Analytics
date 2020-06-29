@@ -1,7 +1,9 @@
-package kMeans;
+package spatialJoin;
 
+import kMeans.Distance;
 import kMeans.enums.Centroid;
 import kMeans.enums.Point;
+import kMeans.KMeans;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -12,14 +14,12 @@ import org.apache.hadoop.mapreduce.Mapper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
-public class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
+public class SpatialJoinMapper extends Mapper<LongWritable, Text, Text, Text> {
     // private final IntWritable one = new IntWritable(1);
 
-    private Text word = new Text();
-    private List<Centroid> centroids = new ArrayList<Centroid>();
+   // private Text word = new Text();
+  //  private List<Centroid> centroids = new ArrayList<Centroid>();
 
     /**
      * setup should be called only once before the task begis
@@ -30,11 +30,9 @@ public class KMeansMapper extends Mapper<LongWritable, Text, Text, Text> {
      */
     protected void setup(Context context) throws IOException {
         Configuration conf = context.getConfiguration();
-        Path centroidsPath = new Path(conf.get("centroids"));
-
+        Path centroidsPath = new Path(conf.get("rectangles"));
         FileSystem fs = FileSystem.get(context.getConfiguration());
         InputStreamReader inputStream = new InputStreamReader(fs.open(centroidsPath));
-
         BufferedReader reader = new BufferedReader(inputStream);
         String line = reader.readLine();
         int i =0;

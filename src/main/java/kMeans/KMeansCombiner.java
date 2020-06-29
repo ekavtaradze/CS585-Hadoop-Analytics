@@ -1,6 +1,6 @@
 package kMeans;
 
-import kMeans.Enums.Point;
+import kMeans.enums.Point;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 

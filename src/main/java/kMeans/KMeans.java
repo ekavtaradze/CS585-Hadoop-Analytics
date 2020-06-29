@@ -2,9 +2,8 @@ package kMeans;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
-import kMeans.Enums.Centroid;
+import kMeans.enums.Centroid;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
@@ -120,7 +119,7 @@ public class KMeans {
         numChanges = 0;
         Configuration config = new Configuration();
         config.set("centroids", centers.toString());
-        Job job = new Job(config, "wordcount");
+        Job job = new Job(config, "KMeans");
 
         FileSystem fs = FileSystem.get(output.toUri(), config);
         if (fs.exists(output)) {

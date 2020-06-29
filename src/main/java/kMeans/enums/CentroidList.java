@@ -1,4 +1,4 @@
-package kMeans.Enums;
+package kMeans.enums;
 
 import java.util.ArrayList;
 
