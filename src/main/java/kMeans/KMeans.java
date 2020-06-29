@@ -90,6 +90,7 @@ public class KMeans {
             ArrayList<Centroid> list = new ArrayList<Centroid>();
             int bytesRead = 0;
             while ((bytesRead = in.read(buffer)) > 0) {
+                list.add(new Centroid(buffer.toString()));
                 out.write(buffer, 0, bytesRead);
             }
 
