@@ -26,4 +26,6 @@ Centroids
 Dataset R - Points + height + width
     Split by "," 
     example: 1436,5296,9,4
+    X direction is Width
+    Y direction is height
     
