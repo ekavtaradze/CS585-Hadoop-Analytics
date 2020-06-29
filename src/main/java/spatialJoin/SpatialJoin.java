@@ -32,7 +32,6 @@ public class SpatialJoin {
         FileInputFormat.addInputPath(job, datasetP);
 
         job.setMapperClass(SpatialJoinMapper.class);
-      //  job.setCombinerClass(KMeansCombiner.class);
         job.setReducerClass(SpatialJoinReducer.class);
 
 
