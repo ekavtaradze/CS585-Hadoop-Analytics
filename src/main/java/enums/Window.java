@@ -54,7 +54,7 @@ public class Window {
     }
 
     boolean isInside(double x, double y) {
-        if (x >= xLower && x <= xUpper && y >= yLower && y <= yUpper) {
+        if ((x >= xLower || x <= xUpper) && (y >= yLower || y <= yUpper)) {
             return true;
         }
         return false;

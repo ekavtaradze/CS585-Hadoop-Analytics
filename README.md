@@ -18,14 +18,15 @@ Problem 1
      
         ex: smallTestingData/datasetP.txt smallTestingData/datasetR.txt spatialJoinOutput
             smallerTestingData/datasetP.txt smallerTestingData/datasetR.txt spatialJoinOutput
+            smallerTestingData/datasetP.txt smallerTestingData/datasetR.txt spatialJoinOutput W(1,3,3,20)
         
         
 Problem 2 - kMeans
     Run as application
     Program inputs: datasetP.txt centroids.txt kMeansOutput
     
-    ex: smallTestingData/datasetP.txt smallTestingData/datasetR.txt spatialJoinOutput
-        smallerTestingData/datasetP.txt smallerTestingData/datasetR.txt spatialJoinOutput
+    ex: smallTestingData/datasetP.txt smallTestingData/datasetR.txt kMeansOutput
+        smallerTestingData/datasetP.txt smallerTestingData/datasetR.txt kMeansOutput
    
 
 Information/Assumptions
