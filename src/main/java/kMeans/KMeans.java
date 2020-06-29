@@ -33,15 +33,22 @@ public class KMeans {
 
     public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
 
+        //first run
         Path input = new Path(args[0]);
         Path centers = new Path(args[1]);
         Path output = new Path(args[2]);
-       //
-
         oldCentroids = saveOutput(centers);;
+        for(Centroid c:oldCentroids){
+            System.out.println(c.toString());
+        }
         run(input, output, centers);
         Path outputTemp = new Path(args[2] + "/part-r-00000");
         ArrayList<Centroid> newCentroids = saveOutput(outputTemp);
+        //run two
+        //check if has changed
+
+
+
         //System.out.println("Input file not found");
         //writeFile(output.toString(), input.toString());
         int i = 1;
@@ -133,7 +140,7 @@ public class KMeans {
         job.setMapperClass(KMeansMapper.class);
         job.setCombinerClass(KMeansCombiner.class);
         job.setReducerClass(KMeansReducer.class);
-        job.setNumReduceTasks(1);
+        job.setNumReduceTasks(1); //requirement?
 
 
         job.setOutputKeyClass(Text.class);
