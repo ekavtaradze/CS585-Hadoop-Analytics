@@ -26,10 +26,6 @@ public class KMeans {
         numOfCentroids = num;
     }*/
 
-    public static boolean centersDidNotChange() {
-        return true;
-    }
-
     public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
 
         //first run
@@ -37,7 +33,7 @@ public class KMeans {
         Path centers = new Path(args[1]);
         Path output = new Path(args[2]);
         ArrayList<Centroid> newCentroids;
-        Path outputTemp = new Path(args[2] + "/part-r-[0-9]*");
+        Path outputTemp = new Path(args[2] + "/part-r-00000");
 
         oldCentroids = saveOutput(centers);;
         for(Centroid c:oldCentroids){
@@ -56,7 +52,15 @@ public class KMeans {
 
 
     public static boolean centroidsHaveNotChanged(ArrayList<Centroid> oldC, ArrayList<Centroid> newC){
-        return true;
+
+        for(Centroid c: oldC){
+            System.out.print(c.toString()+" ");
+        }
+        System.out.println();
+        for(Centroid c: newC){
+            System.out.print(c.toString()+" ");
+        }
+        return oldC.equals(newC);
     }
     /**
      * Read from HDFS copied from https://www.netjstech.com/2018/02/java-program-to-read-file-in-hdfs.html
@@ -131,8 +135,8 @@ public class KMeans {
 
     public static void run(Path input, Path output, Path centers) throws IOException, ClassNotFoundException, InterruptedException {
 
-        hasNOTChanged = false;
-        numChanges = 0;
+       /* hasNOTChanged = false;
+        numChanges = 0;*/
         Configuration config = new Configuration();
         config.set("centroids", centers.toString());
         Job job = new Job(config, "KMeans");
