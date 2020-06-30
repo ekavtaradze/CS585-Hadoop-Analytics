@@ -93,7 +93,7 @@ public class CreatingDatasets {
     public static String createP() {
         int x = createRandomInt(min, max);
         int y = createRandomInt(min, max);
-        String pair = x + "" + y;
+        String pair = x + "," + y;
         return pair;
     }
 
