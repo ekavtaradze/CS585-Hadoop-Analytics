@@ -1,13 +1,18 @@
 
-CS 585 - Project 2
+# CS 585 - Project 2
+
 Team - Elene Kavtaradze and Michael Ludwig
+
 author: Elene Kavtaradze - Problems 1 & 2 - dataset P was shared with Michael for Problem 4
+
 Michael Ludwig - Problems 3 & 4
 
 How to run 
+
 (to run with included Intellij project)
 
 Problem 1
+
     Part 1 - creatingDatasets
         Takes a while to generate two 100 mb files. 
         Run as application
@@ -22,6 +27,7 @@ Problem 1
         
         
 Problem 2 - kMeans
+
     Run as application
     Program inputs: datasetP.txt centroids.txt kMeansOutput
     Output: Centroids(double,double)
@@ -30,16 +36,20 @@ Problem 2 - kMeans
             smallerTestingData/datasetP.txt smallerTestingData/datasetR.txt kMeansOutput
    
 
-Information/Assumptions
+### Information/Assumptions
+
 Dataset P - Points
     Pairs are split by "," 
     example: 12,34
     Points generated are ints, but mappers can handle doubles
 Centroids
+
     Pairs are split by " "
+    
     example: 12 34
     Points generated are ints, but mappers can handle doubles
 Dataset R - Points + height + width
+
     Split by "," 
     example: 1436,5296,9,4
     X direction is Width
